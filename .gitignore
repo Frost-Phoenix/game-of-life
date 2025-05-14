@@ -1,0 +1,11 @@
+*.o
+*.out
+
+obj
+bin
+build
+
+.vscode
+.cache
+
+*.pdf
