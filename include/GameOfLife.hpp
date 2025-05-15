@@ -27,9 +27,10 @@ public:
     const std::vector<std::vector<CellState>>& GetGrid() const;
 
 private:
+    int generations;
+
     size_t nb_rows;
     size_t nb_cols;
-
     std::vector<std::vector<CellState>> grid;
 
     int GetNbNeighbors(Pos pos);

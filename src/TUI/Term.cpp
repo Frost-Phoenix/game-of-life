@@ -148,7 +148,7 @@ namespace Term {
         FD_ZERO(&readfds);
         FD_SET(STDIN_FILENO, &readfds);
 
-        struct timeval timeout = { .tv_sec = 0, .tv_usec = 500000 };
+        struct timeval timeout = { .tv_sec = 0, .tv_usec = 0 };
 
         int result = select(STDIN_FILENO + 1, &readfds, nullptr, nullptr, &timeout);
 

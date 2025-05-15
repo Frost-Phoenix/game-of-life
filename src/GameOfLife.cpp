@@ -49,6 +49,8 @@ GameOfLife::GameOfLife() {
 void GameOfLife::Step() {
     vector<vector<CellState>> buff(nb_rows, std::vector<CellState>(nb_cols));
 
+    generations++;
+
     for (size_t row = 0; row < nb_rows; row++) {
         for (size_t col = 0; col < nb_cols; col++) {
             CellState cell_state = grid[row][col];
@@ -81,6 +83,8 @@ void GameOfLife::Step() {
 }
 
 void GameOfLife::ClearGrig() {
+    generations = 0;
+
     for (auto& line : grid) {
         for (auto& cell_state : line) {
             cell_state = DEAD;
@@ -100,6 +104,8 @@ void GameOfLife::toggleCell(Pos pos) {
 
 void GameOfLife::ResizeGrid() {
     const Term::Size term_size = Term::GetTermSize();
+
+    generations = 0;
 
     // Leave a 10% margin around the game area
     this->nb_rows = term_size.rows - (term_size.rows / 5);
