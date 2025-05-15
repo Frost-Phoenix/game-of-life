@@ -116,7 +116,7 @@ namespace Term {
     }
 
     void SetTextColor(Color color) {
-        cout << "\033[1;3" << static_cast<int>(color) << "m" << flush;
+        cout << "\033[" << static_cast<int>(color) << "m" << flush;
     }
 
     void SetCursorPos(int row, int col) {

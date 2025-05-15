@@ -28,7 +28,8 @@ public:
     void Resize(size_t nb_rows, size_t nb_cols);
 
     void DrawChar(Pos pos, Cell cell);
-    void DrawString(Pos pos, const std::string& str);
+    void DrawString(Pos pos, const std::string& str, Term::Color color = Term::Color::WHITE,
+                    bool bold = false);
     void DrawGrid(GameOfLife& gameOfLife);
 
     void Render();

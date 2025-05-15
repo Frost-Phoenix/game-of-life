@@ -79,14 +79,14 @@ void ScreenBuffer::DrawChar(Pos pos, Cell cell) {
     buffer[row][col] = cell;
 }
 
-void ScreenBuffer::DrawString(Pos pos, const string& str) {
+void ScreenBuffer::DrawString(Pos pos, const string& str, Color color, bool bold) {
     const int row = pos.row;
     const int col = pos.col;
 
     for (size_t i = 0; i < str.size(); i++) {
         const int offset = static_cast<int>(i);
 
-        DrawChar(Pos(row, col + offset), Cell(str[i]));
+        DrawChar(Pos(row, col + offset), Cell(str[i], color, bold));
     }
 }
 
@@ -94,8 +94,6 @@ void ScreenBuffer::DrawGrid(GameOfLife& gameOfLife) {
     const auto& grid = gameOfLife.GetGrid();
     const size_t grid_width = gameOfLife.GetNbCols();
     const size_t grid_height = gameOfLife.GetNbRows();
-
-    cout << grid_width << " / " << nb_cols << std::endl;
 
     for (size_t row = 0; row + 1 < grid_height; row += 2) {
         for (size_t col = 0; col < grid_width; col++) {
@@ -123,6 +121,7 @@ void ScreenBuffer::Render() {
 
     Term::SetTextColor(buffer[0][0].fg);
     Color current_fg = Color::WHITE;
+    bool bold_active = false;
 
     int offset = 0;
 
@@ -133,6 +132,14 @@ void ScreenBuffer::Render() {
             if (cell.fg != current_fg) {
                 Term::SetTextColor(cell.fg);
                 current_fg = cell.fg;
+            }
+            if (cell.bold && !bold_active) {
+                Term::SetBold();
+                bold_active = true;
+            } else if (!cell.bold && bold_active) {
+                Term::ResetFormating();
+                Term::SetTextColor(current_fg);
+                bold_active = false;
             }
             cout << cell.chr;
         }
