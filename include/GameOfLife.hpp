@@ -3,6 +3,8 @@
 #include <cstddef>
 #include <vector>
 
+#include "common.hpp"
+
 
 enum CellState {
     DEAD,
@@ -12,6 +14,10 @@ enum CellState {
 class GameOfLife {
 public:
     GameOfLife();
+
+    void Step();
+    void ClearGrig();
+    void toggleCell(Pos pos);
 
     void ResizeGrid();
     void GenerateRandomGrid();
@@ -25,4 +31,7 @@ private:
     size_t nb_cols;
 
     std::vector<std::vector<CellState>> grid;
+
+    int GetNbNeighbors(Pos pos);
+    bool IsPosInBounds(Pos pos);
 };

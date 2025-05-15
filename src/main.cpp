@@ -4,6 +4,7 @@
 #include "GameOfLife.hpp"
 #include "TUI/TUI.hpp"
 #include "TUI/Term.hpp"
+#include "common.hpp"
 
 
 using Term::KeyType, Term::KeyEvent;
@@ -35,6 +36,10 @@ int main() {
                 case KeyType::CHARACTER:
                     switch (pressedKey.character) {
                         case 'q': runnig = false; break;
+                        case 's': gameOfLife.Step(); break;
+                        case 'c': gameOfLife.ClearGrig(); break;
+                        case 'r': gameOfLife.GenerateRandomGrid(); break;
+                        case 't': gameOfLife.toggleCell(Pos(0, 0)); break;
                         default:  break;
                     }
                     break;
