@@ -53,7 +53,7 @@ int main() {
     bool runnig = true;
     while (runnig) {
         if (Term::WasResized()) {
-            Resize(tui, gameOfLife);
+            Resize(tui, gameOfLife, selected_cell);
             tui.Render(gameOfLife, game_state, paused, FPS);
 
             continue;
