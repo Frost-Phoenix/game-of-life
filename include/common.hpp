@@ -3,6 +3,11 @@
 #include <string>
 
 
+enum GameState {
+    Playing,
+    Insert,
+};
+
 struct Pos {
     int row;
     int col;

@@ -13,17 +13,18 @@ enum CellState {
 
 class GameOfLife {
 public:
-    GameOfLife();
+    GameOfLife(size_t nb_rows, size_t nb_cols);
 
     void Step();
     void ClearGrig();
     void toggleCell(Pos pos);
 
-    void ResizeGrid();
+    void ResizeGrid(size_t nb_rows, size_t nb_cols);
     void GenerateRandomGrid();
 
     size_t GetNbRows() const;
     size_t GetNbCols() const;
+    int GetNbGenerations() const;
     const std::vector<std::vector<CellState>>& GetGrid() const;
 
 private:

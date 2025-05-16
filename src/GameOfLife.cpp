@@ -42,8 +42,8 @@ int GameOfLife::GetNbNeighbors(Pos pos) {
  *                      Public                        *
  ******************************************************/
 
-GameOfLife::GameOfLife() {
-    ResizeGrid();
+GameOfLife::GameOfLife(size_t nb_rows, size_t nb_cols) {
+    ResizeGrid(nb_rows, nb_cols);
 }
 
 void GameOfLife::Step() {
@@ -102,15 +102,11 @@ void GameOfLife::toggleCell(Pos pos) {
     }
 }
 
-void GameOfLife::ResizeGrid() {
-    const Term::Size term_size = Term::GetTermSize();
-
+void GameOfLife::ResizeGrid(size_t nb_rows, size_t nb_cols) {
     generations = 0;
 
-    // Leave a 10% margin around the game area
-    this->nb_rows = term_size.rows - (term_size.rows / 5);
-    this->nb_cols = term_size.cols - (term_size.cols / 5);
-    this->nb_rows *= 2; // 2 pixel in one character
+    this->nb_rows = nb_rows;
+    this->nb_cols = nb_cols;
 
     this->grid.resize(nb_rows);
     for (auto& line : grid) {
@@ -140,6 +136,10 @@ size_t GameOfLife::GetNbRows() const {
 
 size_t GameOfLife::GetNbCols() const {
     return nb_cols;
+}
+
+int GameOfLife::GetNbGenerations() const {
+    return generations;
 }
 
 const vector<vector<CellState>>& GameOfLife::GetGrid() const {
