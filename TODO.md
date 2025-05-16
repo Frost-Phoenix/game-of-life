@@ -1,45 +1,11 @@
-### Modes
+## Todo
 
-- playing
-    - grid size depand on terminal size
-    - 10% margin
-
-- insert
-    - game is paused when exiting insert mode
+- [ ] Global refactor and clean-up
 
 ### Keybinds
 
-##### playing
-- [x] `q`: quit game
-- [x] `+`: faster
-- [x] `-`: slower
-- [x] `p`: pause
-- [x] `s`: step
-- [x] `i`: inset mode
-
-##### insert
-- [x] `q` quit
-- [x] `escape`: quit insert mode
-- [x] `t`: toggle cell at cursor position
-- [x] `arrows/hjkl`: move arround
-- [x] `c`: clear
-- [x] `r`: random generation
-
-##### CLI
+### CLI args
 - [ ] fps
 - [ ] paused
-
-### Side Pannels
-
-##### keybinds
-- [x] Show all the keybinds
-
-##### Stats
-- [x] Show stats like current generation and FPS
-
-### Todo 
-
-- [x] show when paused
-- [x] show when insert mode
-- [x] show keybinds
-- [x] show generations
+- [ ] % of randomness
+- [ ] --help for general usage and all keybinds / arguments

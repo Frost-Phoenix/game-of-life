@@ -4,6 +4,8 @@
 namespace Term {
 
     enum class Color {
+        DEFAULT = 39,
+
         BLACK = 30,
         RED = 31,
         GREEN = 32,
@@ -52,6 +54,7 @@ namespace Term {
     void Clear();
     void SetBold();
     void SetTextColor(Color color);
+    void SetBgColor(Color color);
     void SetCursorPos(int row, int col);
     void ResetFormating();
     void SynchronizedOutputStart();

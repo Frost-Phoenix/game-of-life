@@ -119,6 +119,10 @@ namespace Term {
         cout << "\033[" << static_cast<int>(color) << "m" << flush;
     }
 
+    void SetBgColor(Color color) {
+        cout << "\033[" << static_cast<int>(color) + 10 << "m" << flush;
+    }
+
     void SetCursorPos(int row, int col) {
         cout << "\033[" << row + 1 << ";" << col + 1 << "H" << flush;
     }

@@ -12,6 +12,7 @@
 struct Cell {
     std::string chr;
     Term::Color fg;
+    Term::Color bg = Term::Color::DEFAULT;
     bool bold;
 
     Cell() = default;
@@ -30,7 +31,7 @@ public:
     void DrawChar(Pos pos, Cell cell);
     void DrawString(Pos pos, const std::string& str, Term::Color color = Term::Color::WHITE,
                     bool bold = false);
-    void DrawGrid(GameOfLife& gameOfLife);
+    void DrawGrid(GameOfLife& gameOfLife, GameState game_state, Pos selected_cell);
 
     void Render();
     void RenderTooSmallMessage();

@@ -16,7 +16,8 @@ public:
     void Resize(size_t nb_rows, size_t nb_cols);
     bool IsScreenBigEnough();
 
-    void Render(GameOfLife& gameOfLife, GameState game_state, bool paused, int FPS);
+    void Render(GameOfLife& gameOfLife, GameState game_state, Pos selected_cell, bool paused,
+                int FPS);
 
     ScreenBuffer screenBuffer;
 

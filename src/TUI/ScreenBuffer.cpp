@@ -90,7 +90,7 @@ void ScreenBuffer::DrawString(Pos pos, const string& str, Color color, bool bold
     }
 }
 
-void ScreenBuffer::DrawGrid(GameOfLife& gameOfLife) {
+void ScreenBuffer::DrawGrid(GameOfLife& gameOfLife, GameState game_state, Pos selected_cell) {
     const auto& grid = gameOfLife.GetGrid();
     const size_t grid_width = gameOfLife.GetNbCols();
     const size_t grid_height = gameOfLife.GetNbRows();
@@ -102,13 +102,50 @@ void ScreenBuffer::DrawGrid(GameOfLife& gameOfLife) {
 
             Pos pos(row / 2 + 1, col + 1);
 
+            Cell cell(" ");
+
             if (state_top == ALIVE && state_bottom == ALIVE) {
-                DrawChar(pos, Cell("█"));
+                cell.chr = "█";
             } else if (state_top == ALIVE) {
-                DrawChar(pos, Cell("▀"));
+                cell.chr = "▀";
             } else if (state_bottom == ALIVE) {
-                DrawChar(pos, Cell("▄"));
+                cell.chr = "▄";
             }
+
+            if (game_state == Insert
+                && ((int)row == selected_cell.row || (int)(row + 1) == selected_cell.row)
+                && (int)col == selected_cell.col) {
+
+                bool top_pixel = selected_cell.row % 2 == 0;
+
+                cell.bg = Color::YELLOW;
+
+                if (top_pixel) {
+                    if (cell.chr == "█") {
+                        cell.chr = "▄";
+                    } else if (cell.chr == "▀") {
+                        cell.fg = Color::YELLOW;
+                        cell.bg = Color::DEFAULT;
+                    } else if (cell.chr == " ") {
+                        cell.chr = "▀";
+                        cell.fg = Color::YELLOW;
+                        cell.bg = Color::DEFAULT;
+                    }
+                } else {
+                    if (cell.chr == "█") {
+                        cell.chr = "▀";
+                    } else if (cell.chr == "▄") {
+                        cell.fg = Color::YELLOW;
+                        cell.bg = Color::DEFAULT;
+                    } else if (cell.chr == " ") {
+                        cell.chr = "▄";
+                        cell.fg = Color::YELLOW;
+                        cell.bg = Color::DEFAULT;
+                    }
+                }
+            }
+
+            DrawChar(pos, cell);
         }
     }
 }
@@ -120,7 +157,9 @@ void ScreenBuffer::Render() {
     Term::Clear();
 
     Term::SetTextColor(buffer[0][0].fg);
+    Term::SetTextColor(buffer[0][0].bg);
     Color current_fg = Color::WHITE;
+    Color current_bg = Color::DEFAULT;
     bool bold_active = false;
 
     int offset = 0;
@@ -133,12 +172,17 @@ void ScreenBuffer::Render() {
                 Term::SetTextColor(cell.fg);
                 current_fg = cell.fg;
             }
+            if (cell.bg != current_bg) {
+                Term::SetBgColor(cell.bg);
+                current_bg = cell.bg;
+            }
             if (cell.bold && !bold_active) {
                 Term::SetBold();
                 bold_active = true;
             } else if (!cell.bold && bold_active) {
                 Term::ResetFormating();
                 Term::SetTextColor(current_fg);
+                Term::SetBgColor(current_bg);
                 bold_active = false;
             }
             cout << cell.chr;

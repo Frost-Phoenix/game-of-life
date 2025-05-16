@@ -48,13 +48,13 @@ int main() {
     bool paused = true;
     GameState game_state = Playing;
 
-    tui.Render(gameOfLife, game_state, paused, FPS);
+    tui.Render(gameOfLife, game_state, selected_cell, paused, FPS);
 
     bool runnig = true;
     while (runnig) {
         if (Term::WasResized()) {
             Resize(tui, gameOfLife, selected_cell);
-            tui.Render(gameOfLife, game_state, paused, FPS);
+            tui.Render(gameOfLife, game_state, selected_cell, paused, FPS);
 
             continue;
         }
@@ -63,7 +63,7 @@ int main() {
             auto now = steady_clock::now();
             if (duration_cast<milliseconds>(now - last_frame) >= frame_duration) {
                 gameOfLife.Step();
-                tui.Render(gameOfLife, game_state, paused, FPS);
+                tui.Render(gameOfLife, game_state, selected_cell, paused, FPS);
 
                 last_frame = now;
             }
@@ -98,6 +98,16 @@ int main() {
                             case '-':
                                 if (FPS > 1) {
                                     FPS--;
+                                }
+                                frame_duration = milliseconds(1000 / FPS);
+                                break;
+                            case '+':
+                                FPS += 5;
+                                frame_duration = milliseconds(1000 / FPS);
+                                break;
+                            case '_':
+                                if (FPS > 5) {
+                                    FPS -= 5;
                                 }
                                 frame_duration = milliseconds(1000 / FPS);
                                 break;
@@ -162,7 +172,7 @@ int main() {
                     default:              break;
                 }
             }
-            tui.Render(gameOfLife, game_state, paused, FPS);
+            tui.Render(gameOfLife, game_state, selected_cell, paused, FPS);
         }
 
         std::this_thread::sleep_for(milliseconds(1));

@@ -234,7 +234,8 @@ bool TUI::IsScreenBigEnough() {
     return termSize.rows >= screenBuffer.MIN_HEIGHT && termSize.cols >= screenBuffer.MIN_WIDTH;
 }
 
-void TUI::Render(GameOfLife& gameOfLife, GameState game_state, bool paused, int FPS) {
+void TUI::Render(GameOfLife& gameOfLife, GameState game_state, Pos selected_cell, bool paused,
+                 int FPS) {
     if (!IsScreenBigEnough()) {
         screenBuffer.RenderTooSmallMessage();
         return;
@@ -243,7 +244,7 @@ void TUI::Render(GameOfLife& gameOfLife, GameState game_state, bool paused, int 
     screenBuffer.Clear();
 
     RenderBoxGame(gameOfLife.GetNbCols() + 2, game_state, paused);
-    screenBuffer.DrawGrid(gameOfLife);
+    screenBuffer.DrawGrid(gameOfLife, game_state, selected_cell);
     RenderBoxKeybinds(game_state);
     RenderBoxStats(FPS, gameOfLife.GetNbGenerations());
 
