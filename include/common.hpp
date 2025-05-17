@@ -1,11 +1,17 @@
 #pragma once
 
-#include <string>
-
 
 enum GameState {
     Playing,
     Insert,
+};
+
+struct Size {
+    int nb_rows;
+    int nb_cols;
+
+    Size() = default;
+    Size(int nb_rows, int nb_cols);
 };
 
 struct Pos {
@@ -15,6 +21,3 @@ struct Pos {
     Pos() = default;
     Pos(int row, int col);
 };
-
-
-std::string repeat(const std::string& str, size_t n);

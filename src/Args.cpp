@@ -66,8 +66,7 @@ namespace Args {
         Term::SetTextColor(Color::YELLOW);
         cout << "\nOPTIONS:\n";
         PrintOption("-f", "--fps <FPS>", "\t\t     Set the speed of the simulation [default: 10]");
-        PrintOption("-r", "--randomness <RANDOMNESS>",
-                    "    Set the percentage of randomness [default: 25%]");
+        PrintOption("-r", "--randomness <RANDOMNESS>", "    Set the percentage of randomness [default: 25%]");
         PrintOption("-c", "--color <COLOR_ID>", "\t     Set the cells color [default: 7 white]");
         PrintOption("-h", "--help", "\t\t\t     Show this help message and exit");
 
@@ -132,6 +131,7 @@ namespace Args {
     /******************************************************
      *                      Public                        *
      ******************************************************/
+
     void ParseArgs(int argc, char* argv[], int& fps, int& randomness, Term::Color& cells_color) {
         for (int i = 1; i < argc; ++i) {
             string arg = argv[i];

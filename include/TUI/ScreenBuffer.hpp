@@ -10,8 +10,8 @@
 
 
 struct Cell {
-    std::string chr;
-    Term::Color fg;
+    std::string chr = " ";
+    Term::Color fg = Term::Color::WHITE;
     Term::Color bg = Term::Color::DEFAULT;
     bool bold;
 
@@ -28,11 +28,10 @@ public:
     ScreenBuffer(Term::Color cells_color);
 
     void Clear();
-    void Resize(size_t nb_rows, size_t nb_cols);
+    void Resize(Size size);
 
     void DrawChar(Pos pos, Cell cell);
-    void DrawString(Pos pos, const std::string& str, Term::Color color = Term::Color::WHITE,
-                    bool bold = false);
+    void DrawString(Pos pos, const std::string& str, Term::Color color = Term::Color::WHITE, bool bold = false);
     void DrawGrid(GameOfLife& gameOfLife, GameState game_state, Pos selected_cell);
 
     void Render();
@@ -41,8 +40,7 @@ public:
 private:
     Term::Color cells_color;
 
-    size_t nb_rows;
-    size_t nb_cols;
+    Size size;
     std::vector<std::vector<Cell>> buffer;
 
     Pos GetCenteredPos();

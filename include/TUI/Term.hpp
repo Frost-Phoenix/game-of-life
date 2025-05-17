@@ -1,5 +1,7 @@
 #pragma once
 
+#include "common.hpp"
+
 
 namespace Term {
 
@@ -40,12 +42,7 @@ namespace Term {
 
     struct KeyEvent {
         KeyType type;
-        char character = 0;
-    };
-
-    struct Size {
-        int rows;
-        int cols;
+        char chr = '\0';
     };
 
     void Init();
@@ -61,7 +58,7 @@ namespace Term {
     void SynchronizedOutputEnd();
 
     Size GetTermSize();
-    bool GetInput(KeyEvent& ch);
+    bool GetInput(KeyEvent& keyEvent);
 
     bool WasResized();
 

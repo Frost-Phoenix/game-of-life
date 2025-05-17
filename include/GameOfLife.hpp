@@ -19,11 +19,11 @@ public:
     void ClearGrig();
     void toggleCell(Pos pos);
 
-    void ResizeGrid(size_t nb_rows, size_t nb_cols);
+    void ResizeGrid(Size size);
     void GenerateRandomGrid();
 
-    size_t GetNbRows() const;
-    size_t GetNbCols() const;
+    int GetNbRows() const;
+    int GetNbCols() const;
     int GetNbGenerations() const;
     const std::vector<std::vector<CellState>>& GetGrid() const;
 
@@ -31,8 +31,7 @@ private:
     int generations;
     int randomness;
 
-    size_t nb_rows;
-    size_t nb_cols;
+    Size size;
     std::vector<std::vector<CellState>> grid;
 
     int GetNbNeighbors(Pos pos);

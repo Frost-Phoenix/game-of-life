@@ -9,6 +9,8 @@
 #include <termios.h>
 #include <unistd.h>
 
+#include "common.hpp"
+
 using std::string;
 using std::cout, std::flush;
 
@@ -59,32 +61,32 @@ namespace Term {
     }
 
     KeyEvent ReadKey() {
-        char ch;
-        ssize_t n = read(STDIN_FILENO, &ch, 1);
-        if (n <= 0) return { KeyType::UNKNOWN };
+        char chr;
+        ssize_t n = read(STDIN_FILENO, &chr, 1);
+        if (n <= 0) return { .type = KeyType::UNKNOWN };
 
-        if (ch != '\x1B') {
-            switch (ch) {
-                case '\x1B': return { KeyType::ESCAPE };
-                default:     return { KeyType::CHARACTER, ch };
+        if (chr != '\x1B') {
+            switch (chr) {
+                case '\x1B': return { .type = KeyType::ESCAPE };
+                default:     return { .type = KeyType::CHARACTER, .chr = chr };
             }
         }
 
         // Escape sequence
         char seq[3];
-        if (read(STDIN_FILENO, &seq[0], 1) != 1) return { KeyType::ESCAPE };
-        if (read(STDIN_FILENO, &seq[1], 1) != 1) return { KeyType::ESCAPE };
+        if (read(STDIN_FILENO, &seq[0], 1) != 1) return { .type = KeyType::ESCAPE };
+        if (read(STDIN_FILENO, &seq[1], 1) != 1) return { .type = KeyType::ESCAPE };
 
         if (seq[0] == '[') {
             switch (seq[1]) {
-                case 'A': return { KeyType::ARROW_UP };
-                case 'B': return { KeyType::ARROW_DOWN };
-                case 'C': return { KeyType::ARROW_RIGHT };
-                case 'D': return { KeyType::ARROW_LEFT };
+                case 'A': return { .type = KeyType::ARROW_UP };
+                case 'B': return { .type = KeyType::ARROW_DOWN };
+                case 'C': return { .type = KeyType::ARROW_RIGHT };
+                case 'D': return { .type = KeyType::ARROW_LEFT };
             }
         }
 
-        return { KeyType::UNKNOWN };
+        return { .type = KeyType::UNKNOWN };
     }
 
     /******************************************************
@@ -144,7 +146,7 @@ namespace Term {
 
         ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 
-        return { .rows = w.ws_row, .cols = w.ws_col };
+        return Size(w.ws_row, w.ws_col);
     }
 
     bool GetInput(KeyEvent& keyEvent) {

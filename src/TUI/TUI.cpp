@@ -24,7 +24,6 @@ const string bottom_right = "┘";
  *                     Private                        *
  ******************************************************/
 
-// , Color color = Color::WHITE
 void TUI::RenderBox(Pos pos, int width, int height, Color name_color, const string& name) {
     const int row = pos.row;
     const int col = pos.col;
@@ -100,10 +99,13 @@ void TUI::RenderBoxGame(int width, GameState game_state, bool paused) {
         color = Color::MAGENTA;
     }
 
-    RenderBox(Pos(0, 0), width, nb_rows, color, box_name);
+    RenderBox(Pos(0, 0), width, size.nb_rows, color, box_name);
 }
 
 void TUI::RenderBoxKeybinds(GameState game_state) {
+    const int nb_rows = size.nb_rows;
+    const int nb_cols = size.nb_cols;
+
     RenderBox(Pos(0, nb_cols - 22), 22, nb_rows - nb_rows / 3, Color::BRIGHT_WHITE, "Keybinds");
 
     ScreenBuffer& sb = screenBuffer;
@@ -190,6 +192,9 @@ void TUI::RenderBoxKeybinds(GameState game_state) {
 }
 
 void TUI::RenderBoxStats(int FPS, int nb_generations) {
+    const int nb_rows = size.nb_rows;
+    const int nb_cols = size.nb_cols;
+
     Pos pos(nb_rows - nb_rows / 3, nb_cols - 22);
     RenderBox(pos, 22, nb_rows / 3, Color::BRIGHT_WHITE, "Stats");
 
@@ -225,21 +230,19 @@ void TUI::Exit() {
     Term::Restore();
 }
 
-void TUI::Resize(size_t nb_rows, size_t nb_cols) {
-    this->nb_rows = nb_rows;
-    this->nb_cols = nb_cols;
+void TUI::Resize(Size size) {
+    this->size = size;
 
-    screenBuffer.Resize(nb_rows, nb_cols);
+    screenBuffer.Resize(size);
 }
 
 bool TUI::IsScreenBigEnough() {
-    const Term::Size termSize = Term::GetTermSize();
+    const Size termSize = Term::GetTermSize();
 
-    return termSize.rows >= screenBuffer.MIN_HEIGHT && termSize.cols >= screenBuffer.MIN_WIDTH;
+    return termSize.nb_rows >= screenBuffer.MIN_HEIGHT && termSize.nb_cols >= screenBuffer.MIN_WIDTH;
 }
 
-void TUI::Render(GameOfLife& gameOfLife, GameState game_state, Pos selected_cell, bool paused,
-                 int FPS) {
+void TUI::Render(GameOfLife& gameOfLife, GameState game_state, Pos selected_cell, bool paused, int FPS) {
     if (!IsScreenBigEnough()) {
         screenBuffer.RenderTooSmallMessage();
         return;

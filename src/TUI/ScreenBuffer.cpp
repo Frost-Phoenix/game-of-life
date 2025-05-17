@@ -31,10 +31,10 @@ Cell::Cell(string chr, Color fg, bool bold) {
  ******************************************************/
 
 Pos ScreenBuffer::GetCenteredPos() {
-    const Term::Size termSize = Term::GetTermSize();
+    Size termSize = Term::GetTermSize();
 
-    int row = (termSize.rows / 2) - (nb_rows / 2);
-    int col = (termSize.cols / 2) - (nb_cols / 2);
+    int row = (termSize.nb_rows / 2) - (size.nb_rows / 2);
+    int col = (termSize.nb_cols / 2) - (size.nb_cols / 2);
 
     return Pos(row, col);
 }
@@ -59,14 +59,13 @@ void ScreenBuffer::Clear() {
     }
 }
 
-void ScreenBuffer::Resize(size_t nb_rows, size_t nb_cols) {
-    this->nb_rows = nb_rows;
-    this->nb_cols = nb_cols;
+void ScreenBuffer::Resize(Size size) {
+    this->size = size;
 
-    buffer.resize(nb_rows);
+    buffer.resize(size.nb_rows);
 
     for (auto& line : buffer) {
-        line.resize(nb_cols);
+        line.resize(size.nb_cols);
     }
 
     Clear();
@@ -76,7 +75,7 @@ void ScreenBuffer::DrawChar(Pos pos, Cell cell) {
     const int row = pos.row;
     const int col = pos.col;
 
-    if (!(0 <= row && row < (int)nb_rows && 0 <= col && col < (int)nb_cols)) {
+    if (!(0 <= row && row < size.nb_rows && 0 <= col && col < size.nb_cols)) {
         return;
     }
 
@@ -116,8 +115,7 @@ void ScreenBuffer::DrawGrid(GameOfLife& gameOfLife, GameState game_state, Pos se
                 cell.chr = "▄";
             }
 
-            if (game_state == Insert
-                && ((int)row == selected_cell.row || (int)(row + 1) == selected_cell.row)
+            if (game_state == Insert && ((int)row == selected_cell.row || (int)(row + 1) == selected_cell.row)
                 && (int)col == selected_cell.col) {
 
                 bool top_pixel = selected_cell.row % 2 == 0;
@@ -202,7 +200,7 @@ void ScreenBuffer::RenderTooSmallMessage() {
     Term::SynchronizedOutputStart();
     Term::Clear();
 
-    const Term::Size termSize = Term::GetTermSize();
+    const Size termSize = Term::GetTermSize();
 
     const std::string lines[] = {
         "Terminal size too small:",
@@ -211,42 +209,42 @@ void ScreenBuffer::RenderTooSmallMessage() {
     };
 
     const int LineNb = 5;
-    int row = (termSize.rows / 2) - (LineNb / 2);
+    int row = (termSize.nb_rows / 2) - (LineNb / 2);
     int col = 0;
 
     /* print lines[0] */
-    col = GetColOffset(lines[0].size(), termSize.cols);
+    col = GetColOffset(lines[0].size(), termSize.nb_cols);
     Term::SetBold();
     Term::SetCursorPos(row, col);
     cout << lines[0];
     row += 1;
 
     /* print current terminal size*/
-    const string termWidth = to_string(termSize.cols);
-    const string termHeight = to_string(termSize.rows);
+    const string termWidth = to_string(termSize.nb_cols);
+    const string termHeight = to_string(termSize.nb_rows);
     const string line = "Width = " + termWidth + " Height = " + termHeight;
-    col = GetColOffset(line.length(), termSize.cols);
+    col = GetColOffset(line.length(), termSize.nb_cols);
     Term::ResetFormating();
     Term::SetCursorPos(row, col);
     cout << "Width = ";
-    if (termSize.cols < MIN_WIDTH) {
+    if (termSize.nb_cols < MIN_WIDTH) {
         Term::SetTextColor(Color::RED);
     } else {
         Term::SetTextColor(Color::GREEN);
     }
-    cout << termSize.cols;
+    cout << termSize.nb_cols;
     Term::ResetFormating();
     cout << " Height = ";
-    if (termSize.rows < MIN_HEIGHT) {
+    if (termSize.nb_rows < MIN_HEIGHT) {
         Term::SetTextColor(Color::RED);
     } else {
         Term::SetTextColor(Color::GREEN);
     }
-    cout << termSize.rows;
+    cout << termSize.nb_rows;
     row += 2;
 
     /* print lines[1] */
-    col = GetColOffset(lines[1].size(), termSize.cols);
+    col = GetColOffset(lines[1].size(), termSize.nb_cols);
     Term::ResetFormating();
     Term::SetBold();
     Term::SetCursorPos(row, col);
@@ -254,7 +252,7 @@ void ScreenBuffer::RenderTooSmallMessage() {
     row += 1;
 
     /* print lines[2] */
-    col = GetColOffset(lines[2].size(), termSize.cols);
+    col = GetColOffset(lines[2].size(), termSize.nb_cols);
     Term::ResetFormating();
     Term::SetCursorPos(row, col);
     cout << lines[2];

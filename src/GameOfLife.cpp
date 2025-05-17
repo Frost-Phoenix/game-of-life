@@ -1,10 +1,9 @@
 #include "GameOfLife.hpp"
 
-#include <cstddef>
 #include <cstdlib>
 #include <vector>
 
-#include "TUI/Term.hpp"
+#include "common.hpp"
 
 using namespace std;
 
@@ -17,7 +16,7 @@ bool GameOfLife::IsPosInBounds(Pos pos) {
     const int row = pos.row;
     const int col = pos.col;
 
-    return (0 <= row) && (row < (int)nb_rows) && (0 <= col) && (col < (int)nb_cols);
+    return (0 <= row) && (row < size.nb_rows) && (0 <= col) && (col < size.nb_cols);
 }
 
 int GameOfLife::GetNbNeighbors(Pos pos) {
@@ -47,12 +46,12 @@ GameOfLife::GameOfLife(int randomness) {
 }
 
 void GameOfLife::Step() {
-    vector<vector<CellState>> buff(nb_rows, std::vector<CellState>(nb_cols));
+    vector<vector<CellState>> buff(size.nb_rows, std::vector<CellState>(size.nb_cols));
 
     generations++;
 
-    for (size_t row = 0; row < nb_rows; row++) {
-        for (size_t col = 0; col < nb_cols; col++) {
+    for (int row = 0; row < size.nb_rows; row++) {
+        for (int col = 0; col < size.nb_cols; col++) {
             CellState cell_state = grid[row][col];
             CellState& new_state = buff[row][col];
 
@@ -102,23 +101,21 @@ void GameOfLife::toggleCell(Pos pos) {
     }
 }
 
-void GameOfLife::ResizeGrid(size_t nb_rows, size_t nb_cols) {
-    generations = 0;
+void GameOfLife::ResizeGrid(Size size) {
+    this->size = size;
+    this->generations = 0;
 
-    this->nb_rows = nb_rows;
-    this->nb_cols = nb_cols;
-
-    this->grid.resize(nb_rows);
+    this->grid.resize(size.nb_rows);
     for (auto& line : grid) {
-        line.resize(nb_cols);
+        line.resize(size.nb_cols);
     }
 
     GenerateRandomGrid();
 }
 
 void GameOfLife::GenerateRandomGrid() {
-    for (size_t row = 0; row < nb_rows; row++) {
-        for (size_t col = 0; col < nb_cols; col++) {
+    for (int row = 0; row < size.nb_rows; row++) {
+        for (int col = 0; col < size.nb_cols; col++) {
             const bool is_alive = (rand() % 100) < randomness;
 
             if (is_alive) {
@@ -130,12 +127,12 @@ void GameOfLife::GenerateRandomGrid() {
     }
 }
 
-size_t GameOfLife::GetNbRows() const {
-    return nb_rows;
+int GameOfLife::GetNbRows() const {
+    return size.nb_rows;
 }
 
-size_t GameOfLife::GetNbCols() const {
-    return nb_cols;
+int GameOfLife::GetNbCols() const {
+    return size.nb_cols;
 }
 
 int GameOfLife::GetNbGenerations() const {
