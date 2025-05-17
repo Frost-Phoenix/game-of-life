@@ -19,9 +19,9 @@ namespace Args {
      ******************************************************/
 
     const tuple<Color, string> colors[] = {
-        { Color::BLACK, "Black" },   { Color::RED, "Red" },   { Color::GREEN, "Green" },
-        { Color::YELLOW, "Yellow" }, { Color::BLUE, "Blue" }, { Color::MAGENTA, "Magenta" },
-        { Color::WHITE, "White" },
+        { Color::BLACK, "Black" },   { Color::RED, "Red" },     { Color::GREEN, "Green" },
+        { Color::YELLOW, "Yellow" }, { Color::BLUE, "Blue" },   { Color::MAGENTA, "Magenta" },
+        { Color::CYAN, "Cyan" },     { Color::WHITE, "White" },
     };
 
     void PrintOption(string opt_short, string opt_long, string description) {
