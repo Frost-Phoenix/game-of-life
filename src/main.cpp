@@ -4,13 +4,14 @@
 #include <thread>
 #include <unistd.h>
 
+#include "Args.hpp"
 #include "GameOfLife.hpp"
 #include "TUI/TUI.hpp"
 #include "TUI/Term.hpp"
 #include "common.hpp"
 
 using namespace std::chrono;
-using Term::KeyType, Term::KeyEvent;
+using Term::KeyType, Term::KeyEvent, Term::Color;
 
 
 void Resize(TUI& tui, GameOfLife& gameOfLife, Pos& selected_cell) {
@@ -27,8 +28,14 @@ void Resize(TUI& tui, GameOfLife& gameOfLife, Pos& selected_cell) {
     selected_cell = Pos(gameOfLife.GetNbRows() / 2, gameOfLife.GetNbCols() / 2);
 }
 
-int main() {
+int main(int argc, char* argv[]) {
     srand(time(nullptr));
+
+    int FPS = 10;
+    int randomness = 25;
+    Color cells_color = Color::WHITE;
+
+    Args::ParseArgs(argc, argv, FPS, randomness, cells_color);
 
     GameOfLife gameOfLife(0, 0);
 
@@ -41,7 +48,6 @@ int main() {
 
     KeyEvent pressedKey;
 
-    int FPS = 10;
     auto frame_duration = milliseconds(1000 / FPS);
     auto last_frame = steady_clock::now();
 
