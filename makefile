@@ -45,7 +45,7 @@ run: all
 	$(BIN_DIR)/$(TARGET)
 
 format:
-	find . -iname '*.hpp' -o -iname '*.cpp' | xargs clang-format --style=file -i
+	find ./src ./include -iname '*.hpp' -o -iname '*.cpp' | xargs clang-format --style=file -i --verbose
 
 clean:
 	rm -rf $(OBJ_DIR)
