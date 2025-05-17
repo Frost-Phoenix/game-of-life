@@ -10,6 +10,7 @@
 
 class TUI {
 public:
+    TUI(Term::Color cells_color);
     void Init();
     void Exit();
 

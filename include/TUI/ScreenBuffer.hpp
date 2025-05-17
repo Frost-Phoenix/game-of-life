@@ -25,6 +25,8 @@ public:
     static constexpr int MIN_WIDTH = 80;
     static constexpr int MIN_HEIGHT = 24;
 
+    ScreenBuffer(Term::Color cells_color);
+
     void Clear();
     void Resize(size_t nb_rows, size_t nb_cols);
 
@@ -37,6 +39,8 @@ public:
     void RenderTooSmallMessage();
 
 private:
+    Term::Color cells_color;
+
     size_t nb_rows;
     size_t nb_cols;
     std::vector<std::vector<Cell>> buffer;

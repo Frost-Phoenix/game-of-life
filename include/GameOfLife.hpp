@@ -13,7 +13,7 @@ enum CellState {
 
 class GameOfLife {
 public:
-    GameOfLife(size_t nb_rows, size_t nb_cols);
+    GameOfLife(int randomness);
 
     void Step();
     void ClearGrig();
@@ -29,6 +29,7 @@ public:
 
 private:
     int generations;
+    int randomness;
 
     size_t nb_rows;
     size_t nb_cols;

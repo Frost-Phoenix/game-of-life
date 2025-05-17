@@ -37,9 +37,9 @@ int main(int argc, char* argv[]) {
 
     Args::ParseArgs(argc, argv, FPS, randomness, cells_color);
 
-    GameOfLife gameOfLife(0, 0);
+    GameOfLife gameOfLife(randomness);
 
-    TUI tui;
+    TUI tui(cells_color);
     tui.Init();
 
     Pos selected_cell;

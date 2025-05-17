@@ -47,6 +47,10 @@ int ScreenBuffer::GetColOffset(size_t stringLength, int termWidth) {
  *                      Public                        *
  ******************************************************/
 
+ScreenBuffer::ScreenBuffer(Term::Color cells_color) {
+    this->cells_color = cells_color;
+}
+
 void ScreenBuffer::Clear() {
     for (auto& row : buffer) {
         for (auto& cell : row) {
@@ -102,7 +106,7 @@ void ScreenBuffer::DrawGrid(GameOfLife& gameOfLife, GameState game_state, Pos se
 
             Pos pos(row / 2 + 1, col + 1);
 
-            Cell cell(" ");
+            Cell cell(" ", cells_color);
 
             if (state_top == ALIVE && state_bottom == ALIVE) {
                 cell.chr = "█";

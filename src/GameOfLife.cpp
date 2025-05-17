@@ -42,8 +42,8 @@ int GameOfLife::GetNbNeighbors(Pos pos) {
  *                      Public                        *
  ******************************************************/
 
-GameOfLife::GameOfLife(size_t nb_rows, size_t nb_cols) {
-    ResizeGrid(nb_rows, nb_cols);
+GameOfLife::GameOfLife(int randomness) {
+    this->randomness = randomness;
 }
 
 void GameOfLife::Step() {
@@ -119,7 +119,7 @@ void GameOfLife::ResizeGrid(size_t nb_rows, size_t nb_cols) {
 void GameOfLife::GenerateRandomGrid() {
     for (size_t row = 0; row < nb_rows; row++) {
         for (size_t col = 0; col < nb_cols; col++) {
-            const bool is_alive = (rand() % 4) == 0;
+            const bool is_alive = (rand() % 100) < randomness;
 
             if (is_alive) {
                 grid[row][col] = ALIVE;

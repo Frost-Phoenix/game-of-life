@@ -213,6 +213,10 @@ void TUI::RenderBoxStats(int FPS, int nb_generations) {
  *                      Public                        *
  ******************************************************/
 
+TUI::TUI(Color cells_color)
+    : screenBuffer(cells_color) {
+}
+
 void TUI::Init() {
     Term::Init();
 }
