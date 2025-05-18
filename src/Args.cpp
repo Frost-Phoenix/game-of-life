@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <tuple>
+#include <type_traits>
 
 #include "TUI/Term.hpp"
 
@@ -19,8 +20,8 @@ namespace Args {
      ******************************************************/
 
     const tuple<Color, string> colors[] = {
-        { Color::BLACK, "Black" },   { Color::RED, "Red" },     { Color::GREEN, "Green" },
-        { Color::YELLOW, "Yellow" }, { Color::BLUE, "Blue" },   { Color::MAGENTA, "Magenta" },
+        { Color::BLACK, "Black" },   { Color::RED, "Red  " },   { Color::GREEN, "Green" },
+        { Color::YELLOW, "Yellow" }, { Color::BLUE, "Blue " },  { Color::MAGENTA, "Magenta" },
         { Color::CYAN, "Cyan" },     { Color::WHITE, "White" },
     };
 
@@ -43,13 +44,19 @@ namespace Args {
     }
 
     void PrintColors() {
-        int color_id = 0;
-        for (auto& [color, color_name] : colors) {
-            cout << "    " << color_id << ": ";
-            Term::SetTextColor(color);
-            cout << color_name << "\n";
-            Term::ResetFormating();
-            color_id++;
+        int idx[2][4] = { { 0, 2, 4, 6 }, { 1, 3, 5, 7 } };
+
+        for (int i = 0; i < 2; i++) {
+            for (int color_id : idx[i]) {
+                Color color = get<0>(colors[color_id]);
+                string color_name = get<1>(colors[color_id]);
+
+                cout << "    " << color_id << ": ";
+                Term::SetTextColor(color);
+                cout << color_name << "\t";
+                Term::ResetFormating();
+            }
+            cout << "\n";
         }
     }
 
