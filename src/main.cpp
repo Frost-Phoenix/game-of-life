@@ -50,6 +50,10 @@ void Resize(TUI& tui, GameOfLife& gameOfLife) {
 }
 
 void UpdateFPS(int new_FPS) {
+    if (new_FPS <= 0) {
+        new_FPS = 1;
+    }
+
     FPS = new_FPS;
     frame_duration = milliseconds(1000 / FPS);
 }
