@@ -105,10 +105,9 @@ namespace Args {
         PrintColors();
 
         Term::SetTextColor(Color::YELLOW);
-        cout << "\nNotes:\n";
+        cout << "\nNote: ";
         Term::SetTextColor(Color::DEFAULT);
-        cout << "    - Grid size is determine by the terminal size\n";
-        // cout << "    - Colors index goes from 0 to 7\n";
+        cout << "Grid size is determine by the terminal size\n";
     }
 
     void ExitError(string message, string found = "") {
