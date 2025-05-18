@@ -108,7 +108,7 @@ namespace Args {
         cout << "\nNotes:\n";
         Term::SetTextColor(Color::DEFAULT);
         cout << "    - Grid size is determine by the terminal size\n";
-        cout << "    - Colors index goes from 0 to 7\n";
+        // cout << "    - Colors index goes from 0 to 7\n";
     }
 
     void ExitError(string message, string found = "") {
