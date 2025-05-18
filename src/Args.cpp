@@ -5,7 +5,6 @@
 #include <iostream>
 #include <string>
 #include <tuple>
-#include <type_traits>
 
 #include "TUI/Term.hpp"
 
